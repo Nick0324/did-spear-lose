@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Did Spear Win?</title>
+  <title>Did Spear Lose?</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -10,6 +10,9 @@
       color: white;
       text-align: center;
       padding-top: 100px;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
     }
     .result {
       font-size: 2rem;
@@ -24,7 +27,7 @@
   </style>
 </head>
 <body>
-  <h1>Did Spear Win His Last Game?</h1>
+  <h1>Did Spear Lose His Last Game?</h1>
   <div id="result" class="result">Loading...</div>
 
   <script>
@@ -37,6 +40,11 @@
         if (data.error) {
           resultEl.textContent = "Error fetching match data.";
           return;
+        }
+        if (data.win) {
+          document.body.style.backgroundImage = "url('/images/win.png')";
+        } else {
+          document.body.style.backgroundImage = "url('/images/lose.gif')";
         }
 
         resultEl.innerHTML = `
