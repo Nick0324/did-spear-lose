@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Did Spear Win?</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0a0a0a;
+      color: white;
+      text-align: center;
+      padding-top: 100px;
+    }
+    .result {
+      font-size: 2rem;
+      margin-top: 30px;
+    }
+    .lose {
+      color: #00ff88;
+    }
+    .win {
+      color: #ff4444;
+    }
+  </style>
+</head>
+<body>
+  <h1>Did Spear Win His Last Game?</h1>
+  <div id="result" class="result">Loading...</div>
+
+  <script>
+    async function loadMatchResult() {
+      try {
+        const res = await fetch('/match-result');
+        const data = await res.json();
+
+        const resultEl = document.getElementById('result');
+        if (data.error) {
+          resultEl.textContent = "Error fetching match data.";
+          return;
+        }
+
+        resultEl.innerHTML = `
+          <div class="${data.win ? 'win' : 'lose'}">
+            ${data.riotId} ${data.win ? 'WON 😢😢😢😢😢' : 'LOST 🎉🎉🎉🎉🎉'}
+          </div>
+          <div>
+            Champion: ${data.champion} <br>
+            KDA: ${data.kills}/${data.deaths}/${data.assists} <br>
+            Time: ${data.time}
+          </div>
+        `;
+      } catch (err) {
+        document.getElementById('result').textContent = "Failed to load match result.";
+      }
+    }
+
+    window.onload = loadMatchResult;
+  </script>
+</body>
+</html>
